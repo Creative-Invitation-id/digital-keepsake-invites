@@ -17,7 +17,7 @@ const App = () => {
 
   useEffect(() => {
     // Auto-play /muara.mp3 from a specific start second and loop by replaying from that second.
-    const START_SECOND = 55; // change this value to start from a different second
+    const START_SECOND = 33; // change this value to start from a different second
     const src = "/muara.mp3";
     const audio = new Audio(src);
     audio.preload = "auto";

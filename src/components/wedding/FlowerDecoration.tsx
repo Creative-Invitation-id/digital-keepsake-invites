@@ -1,58 +1,70 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
-export const FlowerDecoration = () => (
-  <>
-    {/* Top Left Flower */}
-    <div className="absolute -top-2 -left-2 w-28 h-28 opacity-90">
-      <svg viewBox="0 0 100 100" className="w-full h-full">
-        <circle cx="25" cy="25" r="12" fill="hsl(var(--wedding-pink))" opacity="0.7"/>
-        <circle cx="42" cy="20" r="12" fill="hsl(var(--wedding-coral))" opacity="0.7"/>
-        <circle cx="38" cy="38" r="12" fill="hsl(var(--wedding-gold))" opacity="0.7"/>
-        <circle cx="20" cy="42" r="12" fill="hsl(var(--wedding-pink))" opacity="0.8"/>
-        <circle cx="30" cy="30" r="8" fill="hsl(var(--wedding-cream))" opacity="0.95"/>
-        {/* Leaves */}
-        <ellipse cx="55" cy="55" rx="15" ry="8" fill="hsl(140, 30%, 45%)" opacity="0.6" transform="rotate(-45 55 55)"/>
-        <ellipse cx="60" cy="48" rx="12" ry="6" fill="hsl(140, 35%, 50%)" opacity="0.5" transform="rotate(-30 60 48)"/>
-      </svg>
-    </div>
+interface FlowerDecorationProps {
+  /** called when the frame's top animation finishes (frame ready) */
+  onFrameReady?: () => void;
+  /** trigger curtain close animation */
+  triggerCurtainClose?: boolean;
+}
 
-    {/* Top Right Flower */}
-    <div className="absolute -top-2 -right-2 w-28 h-28 opacity-90 transform scale-x-[-1]">
-      <svg viewBox="0 0 100 100" className="w-full h-full">
-        <circle cx="25" cy="25" r="12" fill="hsl(var(--wedding-coral))" opacity="0.7"/>
-        <circle cx="42" cy="20" r="12" fill="hsl(var(--wedding-pink))" opacity="0.7"/>
-        <circle cx="38" cy="38" r="12" fill="hsl(var(--wedding-gold))" opacity="0.7"/>
-        <circle cx="20" cy="42" r="12" fill="hsl(var(--wedding-pink))" opacity="0.8"/>
-        <circle cx="30" cy="30" r="8" fill="hsl(var(--wedding-cream))" opacity="0.95"/>
-        <ellipse cx="55" cy="55" rx="15" ry="8" fill="hsl(140, 30%, 45%)" opacity="0.6" transform="rotate(-45 55 55)"/>
-        <ellipse cx="60" cy="48" rx="12" ry="6" fill="hsl(140, 35%, 50%)" opacity="0.5" transform="rotate(-30 60 48)"/>
-      </svg>
-    </div>
+export const FlowerDecoration: React.FC<FlowerDecorationProps> = ({ onFrameReady, triggerCurtainClose }) => {
+  const calledRef = useRef(false);
+  const [curtainState, setCurtainState] = useState<'idle' | 'closing' | 'opening'>('idle');
 
-    {/* Bottom Left Flower */}
-    <div className="absolute -bottom-2 -left-2 w-28 h-28 opacity-90 transform scale-y-[-1]">
-      <svg viewBox="0 0 100 100" className="w-full h-full">
-        <circle cx="25" cy="25" r="12" fill="hsl(var(--wedding-gold))" opacity="0.7"/>
-        <circle cx="42" cy="20" r="12" fill="hsl(var(--wedding-coral))" opacity="0.7"/>
-        <circle cx="38" cy="38" r="12" fill="hsl(var(--wedding-pink))" opacity="0.7"/>
-        <circle cx="20" cy="42" r="12" fill="hsl(var(--wedding-coral))" opacity="0.8"/>
-        <circle cx="30" cy="30" r="8" fill="hsl(var(--wedding-cream))" opacity="0.95"/>
-        <ellipse cx="55" cy="55" rx="15" ry="8" fill="hsl(140, 30%, 45%)" opacity="0.6" transform="rotate(-45 55 55)"/>
-        <ellipse cx="60" cy="48" rx="12" ry="6" fill="hsl(140, 35%, 50%)" opacity="0.5" transform="rotate(-30 60 48)"/>
-      </svg>
-    </div>
+  useEffect(() => {
+    // reset called flag when component mounts so animation can trigger again
+    calledRef.current = false;
+  }, []);
 
-    {/* Bottom Right Flower */}
-    <div className="absolute -bottom-2 -right-2 w-28 h-28 opacity-90 transform scale-[-1]">
-      <svg viewBox="0 0 100 100" className="w-full h-full">
-        <circle cx="25" cy="25" r="12" fill="hsl(var(--wedding-pink))" opacity="0.7"/>
-        <circle cx="42" cy="20" r="12" fill="hsl(var(--wedding-gold))" opacity="0.7"/>
-        <circle cx="38" cy="38" r="12" fill="hsl(var(--wedding-coral))" opacity="0.7"/>
-        <circle cx="20" cy="42" r="12" fill="hsl(var(--wedding-pink))" opacity="0.8"/>
-        <circle cx="30" cy="30" r="8" fill="hsl(var(--wedding-cream))" opacity="0.95"/>
-        <ellipse cx="55" cy="55" rx="15" ry="8" fill="hsl(140, 30%, 45%)" opacity="0.6" transform="rotate(-45 55 55)"/>
-        <ellipse cx="60" cy="48" rx="12" ry="6" fill="hsl(140, 35%, 50%)" opacity="0.5" transform="rotate(-30 60 48)"/>
-      </svg>
-    </div>
-  </>
-);
+  useEffect(() => {
+    // trigger curtain close when prop changes
+    if (triggerCurtainClose) {
+      setCurtainState('closing');
+    }
+  }, [triggerCurtainClose]);
+
+  const handleTopAnimEnd = () => {
+    if (calledRef.current) return;
+    calledRef.current = true;
+    onFrameReady?.();
+  };
+
+  return (
+    <>
+      {/* Top frame - positioned at very top */}
+      <div className="absolute left-0 top-0 w-full pointer-events-none z-[60] overflow-visible">
+        <div className="flower-top w-full">
+          <img
+            src="/frame-top.svg"
+            alt="frame top"
+            loading="eager"
+            decoding="async"
+            className={`w-full block animate-frame-enter object-cover frame-img animate-flower-pulse ${
+              curtainState === 'closing' ? 'animate-flower-curtain-close' : curtainState === 'opening' ? 'animate-flower-curtain-open' : ''
+            }`}
+            onAnimationEnd={handleTopAnimEnd}
+            style={{ height: '48%', objectFit: 'cover', animation: 'frame-enter 1.1s cubic-bezier(.2,.9,.3,1) both, flower-pulse 2.5s ease-in-out 1.1s infinite' }}
+          />
+        </div>
+      </div>
+
+      {/* Bottom frame - positioned at very bottom */}
+      <div className="absolute left-0 bottom-0 w-full pointer-events-none z-[60] overflow-visible">
+        <div className="flower-bottom w-full">
+          <img
+            src="/frame-bot.svg"
+            alt="frame bottom"
+            loading="eager"
+            decoding="async"
+            className={`w-full block animate-frame-enter object-cover frame-img animate-flower-pulse-reverse ${
+              curtainState === 'closing' ? 'animate-flower-curtain-close' : curtainState === 'opening' ? 'animate-flower-curtain-open' : ''
+            }`}
+            style={{ height: '48%', objectFit: 'cover', animation: 'frame-enter 1.1s cubic-bezier(.2,.9,.3,1) both 160ms, flower-pulse-reverse 2.5s ease-in-out 1.26s infinite' }}
+          />
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default FlowerDecoration;
