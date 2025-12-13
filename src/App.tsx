@@ -100,7 +100,7 @@ const App = () => {
         <button
           aria-label={isMuted ? "Unmute audio" : "Mute audio"}
           onClick={() => setIsMuted((v) => !v)}
-          className="fixed left-4 top-[15%] z-50 bg-primary/20 text-primary p-1.5 rounded-full backdrop-blur-sm hover:bg-primary/30 transition-all"
+          className="fixed left-4 bottom-[38%] z-[100] bg-primary/20 text-primary p-1.5 rounded-full backdrop-blur-sm hover:bg-primary/20 transition-all"
         >
           {isMuted ? <VolumeX size={14} /> : <Volume2 size={14} />}
         </button>

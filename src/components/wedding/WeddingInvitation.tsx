@@ -105,7 +105,7 @@ const WeddingInvitation = () => {
 
         {/* Open Invitation Button - only on slide 0 when not opened, bottom 1/3 */}
         {currentSlide === 0 && !isOpened && (
-          <div className="absolute bottom-[30%] left-0 right-0 flex justify-center px-4 z-20">
+          <div className="absolute bottom-[25%] left-0 right-0 flex justify-center px-4 z-20">
             <button 
               onClick={handleOpenInvitation} 
               className="bg-primary text-primary-foreground px-5 py-2 rounded-full hover:bg-primary/90 transition-all font-vremya tracking-wider text-xs uppercase"

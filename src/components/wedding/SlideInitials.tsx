@@ -11,25 +11,25 @@ export const SlideInitials: React.FC<SlideInitialsProps> = ({ showContent }) => 
     <div className="flex flex-col items-center justify-center h-full px-4 pt-6">
       <div className="text-center">
         {/* Initials with staggered animation */}
-        <div className="flex flex-col items-center gap-0 overflow-visible pr-6">
-          <span className="font-anatomical text-6xl text-primary opacity-0 animate-fade-in-scale leading-none inline-block overflow-visible" style={{ animationDelay: "0ms" }}>
+        <div className="flex flex-col items-center gap-0 overflow-visible">
+          <span className="font-anatomical text-8xl text-primary opacity-0 animate-fade-in-scale leading-none inline-block overflow-visible" style={{ animationDelay: "0ms" }}>
             A
           </span>
-          <span className="font-vremya text-xl text-primary/70 opacity-0 animate-fade-in -my-1 inline-block overflow-visible" style={{ animationDelay: "300ms" }}>
+          <span className="font-vremya text-xl text-primary/70 opacity-0 animate-fade-in -my-3 inline-block overflow-visible" style={{ animationDelay: "300ms" }}>
             &
           </span>
-          <span className="font-anatomical text-6xl text-primary opacity-0 animate-fade-in-scale leading-none inline-block overflow-visible" style={{ animationDelay: "600ms" }}>
+          <span className="font-anatomical text-8xl text-primary opacity-0 animate-fade-in-scale leading-none inline-block overflow-visible" style={{ animationDelay: "600ms" }}>
             A
           </span>
         </div>
 
         {/* Decorative line */}
-        <div className="mt-6 opacity-0 animate-fade-in" style={{ animationDelay: "900ms" }}>
+        <div className="mt-3 opacity-0 animate-fade-in" style={{ animationDelay: "900ms" }}>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mx-auto" />
         </div>
 
         {/* Subtitle */}
-        <p className="font-vremya text-sm text-primary/60 mt-4 tracking-widest uppercase opacity-0 animate-fade-in-up" style={{ animationDelay: "1200ms" }}>
+        <p className="font-vremya text-sm text-primary/60 mt-2 tracking-widest uppercase opacity-0 animate-fade-in-up" style={{ animationDelay: "1200ms" }}>
           The Wedding
         </p>
       </div>
