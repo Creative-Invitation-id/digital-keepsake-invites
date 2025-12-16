@@ -2,12 +2,11 @@ import React, { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FlowerDecoration } from "./FlowerDecoration";
 import { SlideInitials } from "./SlideInitials";
-import { SlideNames } from "./SlideNames";
 import { SlideInvitation } from "./SlideInvitation";
 import { SlideDetails } from "./SlideDetails";
 import { SlideClosing } from "./SlideClosing";
 
-const TOTAL_SLIDES = 5;
+const TOTAL_SLIDES = 4;
 
 const WeddingInvitation = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -35,7 +34,7 @@ const WeddingInvitation = () => {
   // once frame reports ready, show content shortly after
   useEffect(() => {
     if (!frameReady) return;
-    
+
     // For slide 0, add delay for frame animation. For others, show immediately.
     const delay = currentSlide === 0 ? 150 : 0;
     const t = setTimeout(() => setShowContent(true), delay);
@@ -64,7 +63,7 @@ const WeddingInvitation = () => {
     setIsOpened(true);
     setCurrentSlide(1); // Navigate to slide 2
     // Dispatch custom event to unmute audio
-    window.dispatchEvent(new CustomEvent('unmuteAudio'));
+    window.dispatchEvent(new CustomEvent("unmuteAudio"));
   }, []);
 
   // Slide indicators (only show when opened and not on first slide)
@@ -92,12 +91,11 @@ const WeddingInvitation = () => {
         <FlowerDecoration key={frameKey} onFrameReady={() => setFrameReady(true)} />
 
         {/* Content area */}
-        <div className={`relative z-10 h-full ${showContent ? 'animate-slide-in' : ''}`}>
+        <div className={`relative z-10 h-full ${showContent ? "animate-slide-in" : ""}`}>
           {currentSlide === 0 && <SlideInitials showContent={showContent} />}
-          {currentSlide === 1 && <SlideNames showContent={showContent} />}
-          {currentSlide === 2 && <SlideInvitation showContent={showContent} />}
-          {currentSlide === 3 && <SlideDetails showContent={showContent} />}
-          {currentSlide === 4 && <SlideClosing showContent={showContent} />}
+          {currentSlide === 1 && <SlideInvitation showContent={showContent} />}
+          {currentSlide === 2 && <SlideDetails showContent={showContent} />}
+          {currentSlide === 3 && <SlideClosing showContent={showContent} />}
         </div>
 
         {/* Slide indicators */}
@@ -106,10 +104,7 @@ const WeddingInvitation = () => {
         {/* Open Invitation Button - only on slide 0 when not opened, bottom 1/3 */}
         {currentSlide === 0 && !isOpened && (
           <div className="absolute bottom-[25%] left-0 right-0 flex justify-center px-4 z-20">
-            <button 
-              onClick={handleOpenInvitation} 
-              className="bg-primary text-primary-foreground px-5 py-2 rounded-full hover:bg-primary/90 transition-all font-vremya tracking-wider text-xs uppercase"
-            >
+            <button onClick={handleOpenInvitation} className="bg-primary text-primary-foreground px-5 py-2 rounded-full hover:bg-primary/90 transition-all font-vremya tracking-wider text-xs uppercase">
               Open Invitation
             </button>
           </div>

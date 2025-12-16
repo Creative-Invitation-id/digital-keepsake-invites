@@ -415,6 +415,19 @@ body {
     animation-delay: 800ms;
   }
 
+  .animation-delay-900 {
+    animation-delay: 900ms;
+  }
+
+  .animation-delay-1200 {
+    animation-delay: 1200ms;
+  }
+
+  /* utility to use CSS variable for flexible delays */
+  .anim-delay {
+    animation-delay: var(--anim-delay, 0ms);
+  }
+
   /* Slide transition animations */
   @keyframes slide-fade-in {
     0% {
